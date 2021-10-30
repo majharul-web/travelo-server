@@ -60,8 +60,16 @@ async function run() {
             res.send(result)
         })
 
-        // delete myOrder
-        app.delete('/myOrder/order/:id', async (req, res) => {
+        //order delete from  myOrders
+        app.delete('/myOrders/order/delete/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await ordersCollection.deleteOne(query);
+            res.json(result);
+        })
+
+        //order delete from  allOrders
+        app.delete('/allOrders/order/delete/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
             const result = await ordersCollection.deleteOne(query);
