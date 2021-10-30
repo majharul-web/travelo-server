@@ -1,8 +1,15 @@
 const express = require('express');
 const { MongoClient } = require('mongodb');
+const ObjectId = require('mongodb').ObjectId;
 require('dotenv').config();
+const cors = require('cors');
+
 const app = express();
 const port = process.env.PORT || 5000;
+
+// middle war
+app.use(cors());
+app.use(express.json());
 
 // database connection
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.6soco.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
@@ -16,15 +23,19 @@ async function run() {
 
         // database and collection
         const database = client.db('travelo_db');
-        const packagesCollection = database.collection('packages');
+        const destinationCollection = database.collection('destinationrs');
 
-        // create a document to insert
-        const doc = {
-            name: 'Md Rejaul karim',
-            email: 'reja@gmail.com',
-            role: 'generale meber'
-        }
-        const result = await packagesCollection.insertOne(doc);
+        // insert destination
+        app.post('/addDestination', async (req, res) => {
+            const destination = req.body;
+            const result = await destinationCollection.insertOne(destination);
+            console.log(result);
+            res.json(result);
+        })
+
+        // read destination
+        app.get()
+
     }
     finally {
         // await client.close();
