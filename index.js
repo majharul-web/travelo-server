@@ -25,6 +25,8 @@ async function run() {
         const database = client.db('travelo_db');
         const destinationCollection = database.collection('destinationrs');
         const ordersCollection = database.collection('orders');
+        const servicesCollection = database.collection('services');
+        const tripsCollection = database.collection('trips');
 
         // insert destination
         app.post('/addDestination', async (req, res) => {
@@ -85,6 +87,17 @@ async function run() {
             };
             const result = await ordersCollection.updateOne(filter, updateDoc)
             res.json(result)
+        })
+
+        // read services
+        app.get('/services/service', async (req, res) => {
+            const result = await servicesCollection.find({}).toArray();
+            res.send(result)
+        })
+        // read services
+        app.get('/trips/trip', async (req, res) => {
+            const result = await tripsCollection.find({}).toArray();
+            res.send(result)
         })
 
 
